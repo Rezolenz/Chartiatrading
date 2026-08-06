@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  const nav = document.querySelector('.nav');
+const nav = document.querySelector('.nav');
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
 
@@ -25,27 +25,52 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
+  function closeMobileNav() {
+    if (!links || !toggle) return;
+    links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
+  }
+
   // Mobile hamburger
   if (toggle && links) {
-    toggle.addEventListener('click', () => links.classList.toggle('open'));
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (!open) {
+        document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
+      }
+    });
     links.querySelectorAll('a').forEach((a) => {
-      a.addEventListener('click', () => links.classList.remove('open'));
+      a.addEventListener('click', () => {
+        // Close after navigating (dropdown items + top links)
+        closeMobileNav();
+      });
     });
   }
 
-  // Dropdown (Learn)
+  // Dropdown (Learn) — mobile + desktop
   document.querySelectorAll('.nav__dropdown').forEach((dd) => {
     const trigger = dd.querySelector('.nav__dropdown-trigger');
     if (!trigger) return;
     trigger.addEventListener('click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
       const wasOpen = dd.classList.contains('open');
       document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
       if (!wasOpen) dd.classList.add('open');
     });
   });
-  document.addEventListener('click', () => {
-    document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
+
+  // Single outside-click handler
+  document.addEventListener('click', (e) => {
+    if (nav && !nav.contains(e.target)) {
+      closeMobileNav();
+    } else if (!e.target.closest('.nav__dropdown')) {
+      document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
+    }
   });
 
   // Scroll fade-up
@@ -181,6 +206,38 @@ document.addEventListener('DOMContentLoaded', () => {
       el.style.setProperty('--my', `${e.clientY - r.top}px`);
     });
   });
+
+
+  // —— YouTube video ——
+  (function () {
+    const iframe = document.getElementById('latestVideo');
+    const loading = document.getElementById('videoLoading');
+    const meta = document.getElementById('videoMeta');
+    if (!iframe) return;
+
+    const FALLBACK_ID = 'QsHCpkEbg-I';
+    const show = (id, title) => {
+      if (!iframe.getAttribute('src') || !iframe.src.includes(id)) {
+        iframe.src = 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1';
+      }
+      iframe.style.opacity = '1';
+      if (loading) loading.style.display = 'none';
+      if (meta && title) {
+        /* keep static case-study line; optional title update skipped */
+      }
+    };
+
+    // Show fallback immediately
+    show(FALLBACK_ID);
+
+    // Try latest from API when server is running
+    fetch('/api/latest-video')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data && data.videoId) show(data.videoId, data.title);
+      })
+      .catch(() => {});
+  })();
 
   // Blog overlay
   document.querySelectorAll('[data-blog-open]').forEach((btn) => {
