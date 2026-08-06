@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CHARTIA Prop Firm Challenge Calculator — Find the optimal risk % to get funded faster without blowing accounts." />
+  <title>Challenge Calculator — CHARTIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo.png" type="image/png" />
+</head>
+<body>
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
+    <div style="position:relative;width:96px;height:96px;display:flex;align-items:center;justify-content:center;">
+      <div class="page-loader__ring"></div>
+      <img src="assets/logo.png" alt="" class="page-loader__logo" width="72" height="72" />
+    </div>
+    <p class="page-loader__text">CHARTIA</p>
+  </div>
+
+  <div class="bg-motion" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="logo" aria-label="CHARTIA Home">
+        <img src="assets/logo.png" alt="CHARTIA" class="logo__img" width="32" height="32" />
+        <div class="logo__text">
+          <span class="logo__name">CHARTIA</span>
+          <span class="logo__sub">TRADING</span>
+        </div>
+      </a>
+            <nav class="nav__links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="#method">Method</a>
+        <div class="nav__dropdown">
+          <button type="button" class="nav__dropdown-trigger" aria-expanded="false">
+            Learn
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4.5L6 7.5L9 4.5"/></svg>
+          </button>
+          <div class="nav__dropdown-menu">
+            <a href="roadmap.html">Roadmap</a>
+            <a href="free-training.html">Free Training</a>
+            <a href="analysis.html">Analysis</a>
+            <a href="blog/index.html">Blog</a>
+            <a href="challenge-calculator.html">Tools</a>
+          </div>
+        </div>
+        <a href="pricing.html">Pricing</a>
+        <a href="#connect">Connect</a>
+        <a href="pricing.html" class="btn btn--primary btn--sm nav__cta nav__cta--mobile">Get Access</a>
+      </nav>
+
+      <a href="pricing.html" class="btn btn--primary btn--sm nav__cta nav__cta--desktop">Get Access</a>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero--pricing">
+      <div class="hero__glow"></div>
+      <div class="container hero__content">
+        <p class="eyebrow animate-in">Prop Firm Tool</p>
+        <h1 class="hero__title animate-in">
+          Get funded <span class="gradient-text">3× faster</span><br />with optimal risk
+        </h1>
+        <p class="hero__subtitle animate-in">
+          Stop wasting months on one challenge. This calculator shows the mathematically sensible risk per trade to reach the profit target faster — while still respecting survival.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <p class="eyebrow">Compare approaches</p>
+          <h2 class="section__title">The hidden cost of playing it too safe</h2>
+          <p class="section__desc">Same 40% win rate, 2:1 R:R strategy — drastically different timelines.</p>
+        </div>
+
+        <div class="compare-grid" style="margin-bottom: 64px;">
+          <div class="compare-card compare-card--bad animate-in">
+            <h3>Conservative · 0.5% risk</h3>
+            <ul>
+              <li>Pass rate ~98% (almost guaranteed)</li>
+              <li>Expected cost: ~1 attempt</li>
+              <li>~150 trades to target</li>
+              <li>Time: 7–12 months at 10 trades/month</li>
+              <li>Hidden cost: months of $0 income + psychological drag</li>
+            </ul>
+          </div>
+          <div class="compare-card compare-card--good animate-in">
+            <h3>Strategic · 1.5–3% risk</h3>
+            <ul>
+              <li>Still high pass probability with good process</li>
+              <li>1–3 attempts expected</li>
+              <li>~40–60 trades to target</li>
+              <li>Time: 6–10 weeks possible</li>
+              <li>Start earning real payouts sooner</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section__header">
+          <p class="eyebrow">Calculator</p>
+          <h2 class="section__title">Your optimal risk estimate</h2>
+          <p class="section__desc">Educational model only. Adjust inputs to match your edge and challenge rules.</p>
+        </div>
+
+        <div class="calc-wrap-center"><div class="calc animate-in" style="margin-left:auto;margin-right:auto;" id="challengeCalc">
+          <div class="calc__form">
+            <div class="calc__field">
+              <label for="chWinRate">Win rate (%)</label>
+              <input type="number" id="chWinRate" value="40" min="20" max="70" step="1" />
+            </div>
+            <div class="calc__field">
+              <label for="chRR">Average R:R (reward:risk)</label>
+              <input type="number" id="chRR" value="2" min="1" max="10" step="0.1" />
+            </div>
+            <div class="calc__field">
+              <label for="chTarget">Profit target (%)</label>
+              <input type="number" id="chTarget" value="10" min="5" max="20" step="1" />
+            </div>
+            <div class="calc__field">
+              <label for="chMaxDD">Max drawdown limit (%)</label>
+              <input type="number" id="chMaxDD" value="10" min="5" max="15" step="1" />
+            </div>
+            <div class="calc__field">
+              <label for="chRisk">Risk per trade (%)</label>
+              <input type="number" id="chRisk" value="1.5" min="0.25" max="5" step="0.25" />
+              <span class="calc__hint">Try 0.5 vs 1.5 vs 2.5 and compare expected trades</span>
+            </div>
+            <button type="button" class="btn btn--primary" id="chCalcBtn">Calculate</button>
+          </div>
+          <div class="calc__result">
+            <span class="calc__result-label">Expected trades to target</span>
+            <span class="calc__result-value" id="chTrades">—</span>
+            <span class="calc__result-label">Rough weeks (10 trades/mo)</span>
+            <span class="calc__result-value" id="chWeeks">—</span>
+            <span class="calc__result-label">Risk vs DD buffer</span>
+            <span class="calc__result-value" id="chBuffer">—</span>
+            <p class="calc__disclaimer">
+              Model assumes independent trades and constant edge. Real markets have correlation and regime changes.
+              Never risk capital you cannot afford to lose. This is not financial advice.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section__header">
+          <p class="eyebrow">Position size</p>
+          <h2 class="section__title">Institutional position size calculator</h2>
+        </div>
+        <div class="calc animate-in" style="margin-left:auto;margin-right:auto;">
+          <div class="calc__form">
+            <div class="calc__field">
+              <label for="accountSize">Account size (USD)</label>
+              <input type="number" id="accountSize" value="10000" min="100" step="100" />
+            </div>
+            <div class="calc__field">
+              <label for="riskPercent">Risk per trade (%)</label>
+              <input type="number" id="riskPercent" value="1" min="0.1" max="5" step="0.1" />
+            </div>
+            <div class="calc__field">
+              <label for="stopPips">Stop loss (pips)</label>
+              <input type="number" id="stopPips" value="20" min="1" step="1" />
+            </div>
+            <div class="calc__field">
+              <label for="targetRR">Target R:R</label>
+              <input type="number" id="targetRR" value="5" min="1" max="50" step="0.5" />
+            </div>
+            <div class="calc__field">
+              <label for="pipValue">Pip value per lot (USD)</label>
+              <input type="number" id="pipValue" value="10" min="0.1" step="0.1" />
+              <span class="calc__hint">Standard FX ≈ $10 / pip / lot</span>
+            </div>
+            <button type="button" class="btn btn--primary" id="calcBtn">Calculate position</button>
+          </div>
+          <div class="calc__result">
+            <span class="calc__result-label">Max risk amount</span>
+            <span class="calc__result-value" id="riskAmount">$100.00</span>
+            <span class="calc__result-label">Position size</span>
+            <span class="calc__result-value" id="lotSize">0.50 lots</span>
+            <span class="calc__result-label"><span id="rrLabel">Suggested target (1:5 R:R)</span></span>
+            <span class="calc__result-value" id="rrTarget">100 pips</span>
+            <div class="calc__pl">
+              <div class="calc__pl-item">
+                <span class="calc__result-label">Potential loss</span>
+                <span class="calc__pl-value calc__pl--loss" id="potentialLoss">−$100.00</span>
+              </div>
+              <div class="calc__pl-item">
+                <span class="calc__result-label">Potential profit (1:5)</span>
+                <span class="calc__pl-value calc__pl--profit" id="potentialProfit">+$500.00</span>
+              </div>
+            </div>
+            <p class="calc__disclaimer">Educational tool only. Always confirm contract specs with your broker.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--cta">
+      <div class="container">
+        <div class="cta-box">
+          <div class="cta-box__glow"></div>
+          <h2 class="section__title">Install the full framework</h2>
+          <p class="section__desc">Optimal risk is only useful if your process is mechanical. Get the curriculum, community, and daily structure guidance.</p>
+          <div class="cta-box__actions">
+            <a href="pricing.html" class="btn btn--primary">View Pricing</a>
+            <a href="free-training.html" class="btn btn--ghost">Free Training</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="index.html" class="logo">
+            <img src="assets/logo.png" alt="CHARTIA" class="logo__img" width="32" height="32" />
+            <div class="logo__text"><span class="logo__name">CHARTIA</span><span class="logo__sub">TRADING</span></div>
+          </a>
+          <div class="footer__brand-inline">
+            <span class="footer__sep">|</span>
+            <p class="footer__tagline-inline">Trade with Clarity</p>
+          </div>
+
+          <div class="footer__socials">
+            <a href="https://www.youtube.com/@chartiatrading" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31.5 31.5 0 000 12a31.5 31.5 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1A31.5 31.5 0 0024 12a31.5 31.5 0 00-.5-5.8zM9.75 15.5v-7l6.5 3.5-6.5 3.5z"/></svg></a>
+            <a href="https://t.me/Chartiatrading" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.75 8.15l-1.9 9c-.14.64-.52.8-1.05.5l-2.9-2.14-1.4 1.35c-.15.15-.28.28-.58.28l.2-2.95 5.4-4.88c.23-.21-.05-.33-.36-.12l-6.68 4.2-2.88-.9c-.62-.2-.64-.62.13-.92l11.25-4.34c.52-.2 1 .12.77.97z"/></svg></a>
+            <a href="https://x.com/Chartiatrading" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M18.24 2H21.5l-7.5 8.57L22.5 22h-6.6l-5.17-6.75L5.1 22H1.82l8.03-9.17L1.5 2h6.77l4.67 6.17L18.24 2zm-1.16 18h1.82L7.03 3.94H5.08L17.08 20z"/></svg></a>
+            <a href="https://www.instagram.com/Chartiatrading" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.12.14 4.58 1.62 4.72 4.72.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.14 3.09-1.6 4.58-4.72 4.72-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.13-.14-4.58-1.63-4.72-4.72-.06-1.27-.07-1.64-.07-4.85s.01-3.58.07-4.85C2.57 3.85 4.03 2.37 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95C23.73 2.7 21.31.27 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zM12 16a4 4 0 110-8 4 4 0 010 8zm6.41-11.85a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/></svg></a>
+            <a href="https://wa.me/2347026811827" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35z"/><path d="M12.04 0C5.4 0 .05 5.35.05 11.95c0 2.1.55 4.15 1.59 5.96L0 24l6.19-1.62a11.93 11.93 0 005.84 1.48h.01c6.6 0 11.95-5.35 11.95-11.95C24 5.35 18.65 0 12.04 0zm0 21.82h-.01a9.9 9.9 0 01-5.04-1.38l-.36-.21-3.75.98 1-3.66-.24-.37a9.86 9.86 0 01-1.51-5.26c0-5.45 4.44-9.89 9.9-9.89 2.64 0 5.13 1.03 7 2.9a9.83 9.83 0 012.89 6.99c0 5.46-4.44 9.9-9.89 9.9z"/></svg></a>
+          </div>
+          <p class="footer__handle">@Chartiatrading</p>
+        </div>
+        <div class="footer__cols">
+          <div class="footer__col">
+            <h4>Product</h4>
+            <a href="index.html#method">Method</a>
+            <a href="roadmap.html">Roadmap</a>
+            <a href="analysis.html">Analysis</a>
+            <a href="challenge-calculator.html">Calculator</a>
+            <a href="pricing.html">Pricing</a>
+          </div>
+          <div class="footer__col">
+            <h4>Learn</h4>
+            <a href="free-training.html">Free Training</a>
+            <a href="blog/index.html">Blog</a>
+          </div>
+          <div class="footer__col">
+            <h4>Social</h4>
+            <a href="https://x.com/Chartiatrading" target="_blank" rel="noopener">X / Twitter</a>
+            <a href="https://www.youtube.com/@chartiatrading" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://t.me/Chartiatrading" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://wa.me/2347026811827" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__legal">© 2026 CHARTIA. Educational content only. Trading involves substantial risk of loss.</p>
+        <p class="footer__legal">Not financial advice.</p>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      function expectedTrades(winRate, rr, targetPct, riskPct) {
+        const p = winRate / 100;
+        const expectancy = p * rr - (1 - p); // in R units
+        if (expectancy <= 0) return null;
+        const targetR = targetPct / riskPct;
+        return Math.ceil(targetR / expectancy);
+      }
+      function runCh() {
+        const wr = parseFloat(document.getElementById('chWinRate').value) || 40;
+        const rr = parseFloat(document.getElementById('chRR').value) || 2;
+        const target = parseFloat(document.getElementById('chTarget').value) || 10;
+        const maxDD = parseFloat(document.getElementById('chMaxDD').value) || 10;
+        const risk = parseFloat(document.getElementById('chRisk').value) || 1.5;
+        const trades = expectedTrades(wr, rr, target, risk);
+        const elT = document.getElementById('chTrades');
+        const elW = document.getElementById('chWeeks');
+        const elB = document.getElementById('chBuffer');
+        if (trades === null) {
+          elT.textContent = 'Edge ≤ 0';
+          elW.textContent = '—';
+        } else {
+          elT.textContent = trades + ' trades';
+          elW.textContent = Math.ceil(trades / 10) + ' weeks';
+        }
+        const lossesToDD = Math.floor(maxDD / risk);
+        elB.textContent = lossesToDD + ' consecutive losses to DD limit';
+      }
+      const btn = document.getElementById('chCalcBtn');
+      if (btn) {
+        btn.addEventListener('click', runCh);
+        ['chWinRate','chRR','chTarget','chMaxDD','chRisk'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.addEventListener('input', runCh);
+        });
+        runCh();
+      }
+    })();
+  </script>
+</body>
+</html>
