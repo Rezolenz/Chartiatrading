@@ -12,10 +12,7 @@
   <link rel="icon" href="assets/logo.png" type="image/png" />
 </head>
 <body>
-  <div class="page-loader" id="pageLoader" aria-hidden="true">
-    <div style="position:relative;width:96px;height:96px;display:flex;align-items:center;justify-content:center;">
-      <div class="page-loader__ring"></div>
-      <img src="assets/logo.png" alt="" class="page-loader__logo" width="72" height="72" />
+<img src="assets/logo.png" alt="" class="page-loader__logo" width="72" height="72" />
     </div>
     <p class="page-loader__text">CHARTIA</p>
   </div>
@@ -53,7 +50,11 @@
       </nav>
 
       <a href="pricing.html" class="btn btn--primary btn--sm nav__cta nav__cta--desktop">Get Access</a>
-      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span></button>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
 
@@ -146,6 +147,7 @@
             </p>
           </div>
         </div>
+        </div>
       </div>
     </section>
 
@@ -222,11 +224,11 @@
     <div class="container">
       <div class="footer__top">
         <div class="footer__brand">
-          <a href="index.html" class="logo">
-            <img src="assets/logo.png" alt="CHARTIA" class="logo__img" width="32" height="32" />
-            <div class="logo__text"><span class="logo__name">CHARTIA</span><span class="logo__sub">TRADING</span></div>
-          </a>
           <div class="footer__brand-inline">
+            <a href="index.html" class="logo">
+              <img src="assets/logo.png" alt="CHARTIA" class="logo__img" width="28" height="28" />
+              <span class="logo__name">CHARTIA</span>
+            </a>
             <span class="footer__sep">|</span>
             <p class="footer__tagline-inline">Trade with Clarity</p>
           </div>
@@ -242,23 +244,27 @@
         <div class="footer__cols">
           <div class="footer__col">
             <h4>Product</h4>
-            <a href="index.html#method">Method</a>
+            <a href="#method">Method</a>
             <a href="roadmap.html">Roadmap</a>
             <a href="analysis.html">Analysis</a>
-            <a href="challenge-calculator.html">Calculator</a>
+            <a href="free-training.html">Free Training</a>
             <a href="pricing.html">Pricing</a>
+        <a href="blog/index.html">Blog</a>
+        <a href="challenge-calculator.html">Calculator</a>
           </div>
           <div class="footer__col">
             <h4>Learn</h4>
-            <a href="free-training.html">Free Training</a>
-            <a href="blog/index.html">Blog</a>
+            <a href="#philosophy">Philosophy</a>
+            <a href="#markets">Markets</a>
+            <a href="#lead-magnet">Free checklist</a>
           </div>
           <div class="footer__col">
             <h4>Social</h4>
             <a href="https://x.com/Chartiatrading" target="_blank" rel="noopener">X / Twitter</a>
-            <a href="https://www.youtube.com/@chartiatrading" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://youtube.com/@chartiatrading" target="_blank" rel="noopener">YouTube</a>
             <a href="https://t.me/Chartiatrading" target="_blank" rel="noopener">Telegram</a>
-            <a href="https://wa.me/2347026811827" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="https://instagram.com/chartiatrding" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://chat.whatsapp.com/DJLq7lzTLJpG41ilAxqzzB" target="_blank" rel="noopener">WhatsApp Community</a>
           </div>
         </div>
       </div>
