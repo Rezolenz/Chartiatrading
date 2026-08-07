@@ -5020,3 +5020,95 @@ img, video, iframe, svg, canvas {
     transform: none !important;
   }
 }
+
+
+/* ===== Professional: no inner scrollbars on page sections ===== */
+html {
+  overflow-x: hidden;
+  scrollbar-gutter: auto;
+}
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Hide scrollbars on all nested containers / panels (except body and explicit menus) */
+.container,
+.section,
+.hero,
+.hero__content,
+.card,
+.path-card,
+.testi-card,
+.pricing-card,
+.cta-box,
+.calc,
+.calc-centered,
+.calc-wrap-center,
+.calc__form,
+.calc__result,
+.lead-magnet,
+.lead-magnet__form,
+.method,
+.method__item,
+.roadmap,
+.roadmap__step,
+.roadmap__card,
+.roadmap-detail,
+.roadmap-detail__module,
+.grid,
+.footer,
+.footer__top,
+.footer__cols,
+.video-wrap,
+.video-frame,
+.compare-grid,
+.compare-card,
+.faq,
+main,
+header.nav .nav__inner {
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+}
+
+/* Mobile nav menu: allow scroll if long, but hide scrollbar visually */
+@media (max-width: 768px) {
+  .nav__links {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE */
+  }
+  .nav__links::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+/* Blog overlay can scroll content; hide ugly bar */
+.blog-overlay__panel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 255, 255, 0.25) transparent;
+}
+.blog-overlay__panel::-webkit-scrollbar {
+  width: 4px;
+}
+.blog-overlay__panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+/* Prevent double scroll / horizontal bar on whole site */
+.bg-motion {
+  overflow: hidden !important;
+  max-width: 100vw;
+  pointer-events: none;
+}
+
+/* Loader only styled when present */
+.page-loader.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}

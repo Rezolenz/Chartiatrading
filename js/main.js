@@ -1,38 +1,30 @@
 // CHARTIA — Interactions, motion, calculator, loader, nav dropdown
 
 document.addEventListener('DOMContentLoaded', () => {
-  // —— Page loader ——
+  
+  // —— Page loader: only on first site launch this session (home only) ——
   const loader = document.getElementById('pageLoader');
   if (loader) {
-    const hide = () => loader.classList.add('is-done');
-    if (document.readyState === 'complete') {
-      setTimeout(hide, 600);
+    const seen = sessionStorage.getItem('chartia_loaded');
+    if (seen) {
+      loader.classList.add('is-done');
+      loader.style.display = 'none';
     } else {
-      window.addEventListener('load', () => setTimeout(hide, 500));
-      setTimeout(hide, 2200); // fallback
+      const hide = () => {
+        loader.classList.add('is-done');
+        sessionStorage.setItem('chartia_loaded', '1');
+        setTimeout(() => { loader.style.display = 'none'; }, 600);
+      };
+      if (document.readyState === 'complete') {
+        setTimeout(hide, 700);
+      } else {
+        window.addEventListener('load', () => setTimeout(hide, 600));
+        setTimeout(hide, 2500);
+      }
     }
   }
 
-const nav = document.querySelector('.nav');
-  const toggle = document.getElementById('navToggle');
-  const links = document.getElementById('navLinks');
 
-  const onScroll = () => {
-    if (!nav) return;
-    if (window.scrollY > 30) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  function closeMobileNav() {
-    if (!links || !toggle) return;
-    links.classList.remove('open');
-    toggle.setAttribute('aria-expanded', 'false');
-    document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
-  }
-
-  
   // Mobile hamburger + X icon
   if (toggle && links) {
     const spans = toggle.querySelectorAll('span');
