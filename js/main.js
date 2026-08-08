@@ -1,78 +1,51 @@
 // CHARTIA — Interactions, motion, calculator, loader, nav dropdown
 
 document.addEventListener('DOMContentLoaded', () => {
-  
-  // —— Page loader: only on first site launch this session (home only) ——
+  // —— Page loader ——
   const loader = document.getElementById('pageLoader');
   if (loader) {
-    const seen = sessionStorage.getItem('chartia_loaded');
-    if (seen) {
-      loader.classList.add('is-done');
-      loader.style.display = 'none';
+    const hide = () => loader.classList.add('is-done');
+    if (document.readyState === 'complete') {
+      setTimeout(hide, 600);
     } else {
-      const hide = () => {
-        loader.classList.add('is-done');
-        sessionStorage.setItem('chartia_loaded', '1');
-        setTimeout(() => { loader.style.display = 'none'; }, 600);
-      };
-      if (document.readyState === 'complete') {
-        setTimeout(hide, 700);
-      } else {
-        window.addEventListener('load', () => setTimeout(hide, 600));
-        setTimeout(hide, 2500);
-      }
+      window.addEventListener('load', () => setTimeout(hide, 500));
+      setTimeout(hide, 2200); // fallback
     }
   }
 
+  const nav = document.querySelector('.nav');
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
 
-  // Mobile hamburger + X icon
+  const onScroll = () => {
+    if (!nav) return;
+    if (window.scrollY > 30) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Mobile hamburger
   if (toggle && links) {
-    const spans = toggle.querySelectorAll('span');
-    if (spans.length === 2) toggle.setAttribute('data-spans', '2');
-    // Ensure 3 spans for classic X morph when only 2 exist
-    if (spans.length === 2) {
-      const s = document.createElement('span');
-      toggle.appendChild(s);
-    }
-    const setOpen = (open) => {
-      links.classList.toggle('open', open);
-      if (nav) nav.classList.toggle('is-open', open);
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Toggle menu');
-    };
-    toggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      setOpen(!links.classList.contains('open'));
-    });
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
     links.querySelectorAll('a').forEach((a) => {
-      a.addEventListener('click', () => setOpen(false));
-    });
-    document.addEventListener('click', (e) => {
-      if (!links.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
+      a.addEventListener('click', () => links.classList.remove('open'));
     });
   }
 
-
-  // Dropdown (Learn) — mobile + desktop
+  // Dropdown (Learn)
   document.querySelectorAll('.nav__dropdown').forEach((dd) => {
     const trigger = dd.querySelector('.nav__dropdown-trigger');
     if (!trigger) return;
     trigger.addEventListener('click', (e) => {
-      e.preventDefault();
       e.stopPropagation();
       const wasOpen = dd.classList.contains('open');
       document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
       if (!wasOpen) dd.classList.add('open');
     });
   });
-
-  // Single outside-click handler
-  document.addEventListener('click', (e) => {
-    if (nav && !nav.contains(e.target)) {
-      closeMobileNav();
-    } else if (!e.target.closest('.nav__dropdown')) {
-      document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
-    }
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
   });
 
   // Scroll fade-up
@@ -208,38 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
       el.style.setProperty('--my', `${e.clientY - r.top}px`);
     });
   });
-
-
-  // —— YouTube video ——
-  (function () {
-    const iframe = document.getElementById('latestVideo');
-    const loading = document.getElementById('videoLoading');
-    const meta = document.getElementById('videoMeta');
-    if (!iframe) return;
-
-    const FALLBACK_ID = 'QsHCpkEbg-I';
-    const show = (id, title) => {
-      if (!iframe.getAttribute('src') || !iframe.src.includes(id)) {
-        iframe.src = 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1';
-      }
-      iframe.style.opacity = '1';
-      if (loading) loading.style.display = 'none';
-      if (meta && title) {
-        /* keep static case-study line; optional title update skipped */
-      }
-    };
-
-    // Show fallback immediately
-    show(FALLBACK_ID);
-
-    // Try latest from API when server is running
-    fetch('/api/latest-video')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (data && data.videoId) show(data.videoId, data.title);
-      })
-      .catch(() => {});
-  })();
 
   // Blog overlay
   document.querySelectorAll('[data-blog-open]').forEach((btn) => {
