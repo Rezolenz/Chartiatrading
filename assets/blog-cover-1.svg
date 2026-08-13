@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
-  <rect fill="#121721" width="800" height="450"/>
-  <rect fill="#1A212E" x="40" y="40" width="720" height="370" rx="12"/>
-  <text x="400" y="210" fill="#00FFFF" font-family="system-ui" font-size="18" text-anchor="middle">CHARTIA — Replace this image</text>
-  <text x="400" y="240" fill="#8A94A6" font-family="system-ui" font-size="14" text-anchor="middle">assets/filename.png</text>
+  <rect fill="#0A1016" width="800" height="450"/>
+  <rect fill="#121A22" x="40" y="40" width="720" height="370" rx="16" stroke="rgba(0,255,255,0.18)" stroke-width="1"/>
+  <text x="400" y="200" fill="#00FFFF" font-family="system-ui,sans-serif" font-size="22" font-weight="600" text-anchor="middle">Prop Firms</text>
+  <text x="400" y="240" fill="#8A94A6" font-family="system-ui,sans-serif" font-size="15" text-anchor="middle">Challenge process</text>
 </svg>

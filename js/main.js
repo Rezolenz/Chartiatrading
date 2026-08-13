@@ -1,21 +1,27 @@
 // CHARTIA — Interactions, motion, calculator, loader, nav dropdown
 
 document.addEventListener('DOMContentLoaded', () => {
-  // —— Page loader ——
-  const loader = document.getElementById('pageLoader');
-  if (loader) {
-    const hide = () => loader.classList.add('is-done');
-    if (document.readyState === 'complete') {
-      setTimeout(hide, 600);
-    } else {
-      window.addEventListener('load', () => setTimeout(hide, 500));
-      setTimeout(hide, 2200); // fallback
-    }
-  }
-
   const nav = document.querySelector('.nav');
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
+
+  // —— Page loader: first launch this session only (home has #pageLoader) ——
+  const loader = document.getElementById('pageLoader');
+  if (loader) {
+    if (sessionStorage.getItem('chartia_loaded')) {
+      loader.classList.add('is-done');
+      loader.style.display = 'none';
+    } else {
+      const hide = () => {
+        loader.classList.add('is-done');
+        sessionStorage.setItem('chartia_loaded', '1');
+        setTimeout(() => { loader.style.display = 'none'; }, 400);
+      };
+      if (document.readyState === 'complete') setTimeout(hide, 500);
+      else window.addEventListener('load', () => setTimeout(hide, 400));
+      setTimeout(hide, 2000);
+    }
+  }
 
   const onScroll = () => {
     if (!nav) return;
@@ -25,27 +31,90 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Mobile hamburger
+  // —— Mobile nav open/close ——
+  function setMobileNav(open) {
+    if (!links || !toggle) return;
+    links.classList.toggle('open', open);
+    if (nav) nav.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Toggle menu');
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      if (open) {
+        links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:74px;left:10px;right:10px;width:auto;z-index:10000;opacity:1;visibility:visible;pointer-events:auto;background:rgba(8,14,18,0.98);border:1px solid rgba(255,255,255,0.14);border-radius:16px;padding:12px;max-height:calc(100vh - 90px);overflow-y:auto;box-sizing:border-box;transform:none;';
+        document.body.style.overflow = 'hidden';
+      } else {
+        links.style.cssText = 'display:none;';
+        document.body.style.overflow = '';
+      }
+    } else {
+      links.style.cssText = '';
+      document.body.style.overflow = '';
+    }
+  }
+
   if (toggle && links) {
-    toggle.addEventListener('click', () => links.classList.toggle('open'));
-    links.querySelectorAll('a').forEach((a) => {
-      a.addEventListener('click', () => links.classList.remove('open'));
+    while (toggle.querySelectorAll('span').length < 3) {
+      toggle.appendChild(document.createElement('span'));
+    }
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setMobileNav(!links.classList.contains('open'));
     });
   }
 
-  // Dropdown (Learn)
+  // —— Learn dropdown (works desktop + mobile) ——
+  function closeAllDropdowns() {
+    document.querySelectorAll('.nav__dropdown').forEach((d) => {
+      d.classList.remove('open');
+      const t = d.querySelector('.nav__dropdown-trigger');
+      if (t) t.setAttribute('aria-expanded', 'false');
+      const m = d.querySelector('.nav__dropdown-menu');
+      if (m) m.style.removeProperty('display');
+    });
+  }
+
   document.querySelectorAll('.nav__dropdown').forEach((dd) => {
     const trigger = dd.querySelector('.nav__dropdown-trigger');
     if (!trigger) return;
+
+    // capture phase so we win over other handlers
+    const menu = dd.querySelector('.nav__dropdown-menu');
     trigger.addEventListener('click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
-      const wasOpen = dd.classList.contains('open');
-      document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
-      if (!wasOpen) dd.classList.add('open');
-    });
+      e.stopImmediatePropagation();
+      const willOpen = !dd.classList.contains('open');
+      closeAllDropdowns();
+      document.querySelectorAll('.nav__dropdown-menu').forEach((m) => {
+        m.style.removeProperty('display');
+      });
+      if (willOpen) {
+        dd.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+        if (menu) menu.style.setProperty('display', 'block', 'important');
+      }
+    }, true);
   });
-  document.addEventListener('click', () => {
-    document.querySelectorAll('.nav__dropdown').forEach((d) => d.classList.remove('open'));
+
+  // Nav page links: close mobile menu after navigate (not Learn button)
+  if (links) {
+    links.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => {
+        // delay so navigation starts; close mobile sheet
+        setMobileNav(false);
+        closeAllDropdowns();
+      });
+    });
+  }
+
+  // Outside click
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#navToggle') || e.target.closest('.nav__dropdown-trigger')) return;
+    const insideDropdown = e.target.closest('.nav__dropdown');
+    const insideNav = nav && nav.contains(e.target);
+    if (!insideDropdown) closeAllDropdowns();
+    if (!insideNav) setMobileNav(false);
   });
 
   // Scroll fade-up
@@ -58,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     },
-    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.05, rootMargin: '0px 0px 0px 0px' }
   );
   document.querySelectorAll('.animate-in').forEach((el) => observer.observe(el));
 
@@ -182,6 +251,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+
+  // —— YouTube video ——
+  (function () {
+    const iframe = document.getElementById('latestVideo');
+    const loading = document.getElementById('videoLoading');
+    const meta = document.getElementById('videoMeta');
+    if (!iframe) return;
+
+    const FALLBACK_ID = 'QsHCpkEbg-I';
+    const show = (id, title) => {
+      if (!iframe.getAttribute('src') || !iframe.src.includes(id)) {
+        iframe.src = 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1';
+      }
+      iframe.style.opacity = '1';
+      if (loading) loading.style.display = 'none';
+      if (meta && title) {
+        /* keep static case-study line; optional title update skipped */
+      }
+    };
+
+    // Show fallback immediately
+    show(FALLBACK_ID);
+
+    // Try latest from API when server is running
+    fetch('/api/latest-video')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data && data.videoId) show(data.videoId, data.title);
+      })
+      .catch(() => {});
+  })();
+
   // Blog overlay
   document.querySelectorAll('[data-blog-open]').forEach((btn) => {
     btn.addEventListener('click', (e) => {
@@ -209,4 +310,18 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('blogOverlay')?.addEventListener('click', (e) => {
     if (e.target.id === 'blogOverlay') closeBlog();
   });
+
+  // FAQ: accordion — one open at a time (toggle event is reliable)
+  document.querySelectorAll('.faq').forEach((faq) => {
+    const items = Array.from(faq.querySelectorAll('details.faq__item'));
+    items.forEach((item) => {
+      item.addEventListener('toggle', () => {
+        if (!item.open) return;
+        items.forEach((other) => {
+          if (other !== item && other.open) other.open = false;
+        });
+      });
+    });
+  });
+
 });
