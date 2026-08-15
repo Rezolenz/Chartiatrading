@@ -2,17 +2,28 @@
 
 Minimal institutional trading site — Supply & Demand · Market Structure · Liquidity.
 
-## Pages
+## Clean URLs
 
-| File | Purpose |
-|------|---------|
-| `index.html` | Landing — video, method, roadmap, markets, calculator, lead magnet, results |
-| `roadmap.html` | Full learning roadmap (7 modules incl. Day/Swing plans + CHARTIA OS) |
-| `analysis.html` | Analysis service — pre/post session markups (process not signals) |
-| `free-training.html` | Multi-part free training series (6 modules) + starter pack form |
-| `challenge-calculator.html` | Prop firm optimal risk + position size calculators |
-| `pricing.html` | Plans (₦) — WhatsApp checkout |
-| `blog/` | Static content engine (index + sample posts) |
+Pages use folder/`index.html` so GitHub Pages (and the local server) serve professional paths:
+
+| URL | File |
+|-----|------|
+| `/` | `index.html` |
+| `/pricing/` | `pricing/index.html` |
+| `/roadmap/` | `roadmap/index.html` |
+| `/analysis/` | `analysis/index.html` |
+| `/free-training/` | `free-training/index.html` |
+| `/challenge-calculator/` | `challenge-calculator/index.html` |
+| `/gallery/` | `gallery/index.html` |
+| `/blog/` | `blog/index.html` |
+| `/blog/how-to-pass-prop-challenge/` | `blog/how-to-pass-prop-challenge/index.html` |
+| … | other blog posts similarly |
+
+All internal links and assets use root-relative paths (`/pricing/`, `/css/...`, `/assets/...`).
+
+**Note:** If the site is hosted as a GitHub *project* site at `user.github.io/repo/` (not a custom domain or user site), change root-relative paths to include the repo base, or add `<base href="/repo/">`. Custom domains work as-is.
+
+`.nojekyll` is included so GitHub Pages serves files without Jekyll processing.
 
 ## Payment
 
@@ -24,16 +35,7 @@ Telegram + WhatsApp (same-day coach replies on paid plans). No Discord.
 
 ## Images
 
-Replace placeholders in `assets/` (keep filenames):
-
-- `analysis-markup.svg` / `.png`
-- `curriculum-module.svg`
-- `os-dashboard.svg`
-- `trade-plan.svg`
-- `student-result.svg`
-- `blog-cover-1.svg` … `blog-cover-3.svg`
-- `hero-framework.svg`
-- `logo.png`
+Replace placeholders in `assets/` (keep filenames). Gallery SVGs live in `assets/gallery/`.
 
 ## Run
 
@@ -43,7 +45,7 @@ npm start   # or: node server/index.js
 # open http://localhost:3000
 ```
 
-Static: open `index.html` with Live Server.
+Static: open via any static server (clean URLs need a server that maps `/pricing/` → `pricing/index.html`).
 
 ## Lead forms
 
