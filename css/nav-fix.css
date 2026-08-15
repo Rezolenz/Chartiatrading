@@ -439,7 +439,7 @@ a.nav__cta--mobile:hover::after {
 /* ---- Ghost: black → dark cyan → black @ 120deg ---- */
 .btn--ghost,
 a.btn--ghost {
-  background: linear-gradient(120deg, #000000 0%, #003d3d 50%, #000000 100%) !important;
+  background: linear-gradient(120deg, #000000 0%, #002727 50%, #000000 100%) !important;
   color: #E8FBFF !important;
   border: 1px solid #00B8B8 !important;
   border-color: #00B8B8 !important;
@@ -710,15 +710,15 @@ a.nav__cta--mobile:hover {
 /* Ghost */
 .btn--ghost,
 a.btn--ghost {
-  background: linear-gradient(120deg, #000000 0%, #003d3d 50%, #000000 100%) !important;
-  border: 1px solid #003d3d !important;
-  border-color: #003d3d !important;
+  background: linear-gradient(120deg, #000000 0%, #002727 50%, #000000 100%) !important;
+  border: 1px solid #002727 !important;
+  border-color: #002727 !important;
   color: #E8FBFF !important;
 }
 
 .btn--ghost:hover,
 a.btn--ghost:hover {
-  background: linear-gradient(120deg, #000000 0%, #003d3d 50%, #000000 100%) !important;
+  background: linear-gradient(120deg, #000000 0%, #002727 50%, #000000 100%) !important;
   border-color: #00FFFF !important;
   color: #00FFFF !important;
 }

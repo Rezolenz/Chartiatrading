@@ -11,10 +11,8 @@ Pages use folder/`index.html` so GitHub Pages (and the local server) serve profe
 | `/` | `index.html` |
 | `/pricing/` | `pricing/index.html` |
 | `/roadmap/` | `roadmap/index.html` |
-| `/analysis/` | `analysis/index.html` |
 | `/free-training/` | `free-training/index.html` |
 | `/challenge-calculator/` | `challenge-calculator/index.html` |
-| `/gallery/` | `gallery/index.html` |
 | `/blog/` | `blog/index.html` |
 | `/blog/how-to-pass-prop-challenge/` | `blog/how-to-pass-prop-challenge/index.html` |
 | … | other blog posts similarly |
@@ -31,11 +29,11 @@ Checkout buttons use: https://wa.me/p/26827680176875342/2347026811827
 
 ## Community
 
-Telegram + WhatsApp (same-day coach replies on paid plans). No Discord.
+YouTube, X, Instagram, TikTok (@chartiatrading), Telegram + WhatsApp (same-day coach replies on paid plans).
 
 ## Images
 
-Replace placeholders in `assets/` (keep filenames). Gallery SVGs live in `assets/gallery/`.
+Replace placeholders in `assets/` (keep filenames). Favicon is circular (`assets/favicon.png`).
 
 ## Run
 
